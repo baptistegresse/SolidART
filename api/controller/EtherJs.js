@@ -7,14 +7,16 @@ const web3 = new Web3(goerliRpcUrl);
 
 const listUserNft = async (req, res) => {
     try {
-        const address = "0xa7046f041d3882867681571b5d965efb291a69e9";
+        const address = "0xed626994548a1853f9a6c5bf36e9cbd9ffeff023";
         const contractAddress = process.env.SMART_CONTRACT;
         if (!contractAddress) {
             throw new Error("Adresse du contrat intelligent non définie");
         }
 
         const contract = new web3.eth.Contract(abi, contractAddress);
-        let response = await contract.methods.getAllNFTAddresses(address).call();
+
+        // Appel de la fonction getAddresses
+        let response = await contract.methods.getAddresses().call();
 
         // Convertir les BigInt en chaînes pour éviter des problèmes de sérialisation
         response = JSON.parse(JSON.stringify(response, (_, value) =>

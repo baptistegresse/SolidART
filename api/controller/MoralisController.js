@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const MORALIS_ID = process.env.MORALIS_ID
 const MORALIS_KEY = process.env.MORALIS_API_KEY
-const SMART_CONTRACT = process.env.SMART_CONTRACT
+const SMART_CONTRACT = 0xed626994548a1853f9a6c5bf36e9cbd9ffeff023
 
 const runApp = async () => {
     await Moralis.start({

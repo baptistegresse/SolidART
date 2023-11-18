@@ -2,14 +2,15 @@
   <q-layout view="lHh Lpr lFf">
     <q-header class="header" elevated>
       <q-toolbar class="toolbar grid col-12">
-        <div class="col-4"></div>
+        <div class="col-4"><img class="header-logo" src="/logo.png"></div>
         <div class="col-4">
           <q-list class="links-list flex items-center justify-center">
-            <q-btn class="header-links q-hoverable" v-for="(link, index) in linksList" v-bind:key="index" flat>{{
-              link.title }}</q-btn>
+            <q-btn class="header-links" v-for="(link, index) in linksList" v-bind:key="index"
+              :class="{ 'q-btn-item--active': link.active }" @click="goToPage(link)" flat>{{
+                link.title }}</q-btn>
           </q-list>
         </div>
-        <div class="flex justify-center col-4">
+        <div class="flex justify-end col-4">
           <q-btn class="wallet-button" outlined rounded><svg class="wallet-icon" xmlns="http://www.w3.org/2000/svg"
               height="1em"
               viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -26,35 +27,43 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
+
 
 export default {
   setup() {
     const linksList = [
       {
         title: 'Home',
-        caption: 'quasar.dev',
-        icon: 'school',
-        link: 'https://quasar.dev'
+        link: '/',
+        active: true
       },
       {
-        title: 'Catalogue',
-        caption: 'github.com/quasarframework',
-        icon: 'code',
-        link: 'https://github.com/quasarframework'
+        title: 'Marketplace',
+        link: '/marketplace',
+        active: false
       },
       {
-        title: 'Security',
-        caption: 'chat.quasar.dev',
-        icon: 'chat',
-        link: 'https://chat.quasar.dev'
+        title: 'MyNft\'s',
+        link: '/mynft',
+        active: false
       },
       {
         title: 'Contact',
-        caption: 'forum.quasar.dev',
-        icon: 'record_voice_over',
-        link: 'https://forum.quasar.dev'
-      }]
-    return { linksList }
+        link: '/contact',
+        active: false
+      }];
+    const router = useRouter();
+    return { linksList, router }
+  },
+  methods: {
+    goToPage(page) {
+      this.linksList.forEach(link => {
+        link.active = false;
+      });
+      this.router.push(page.link);
+      page.active = true
+    }
   }
 }
 
@@ -65,7 +74,7 @@ export default {
 
 <style lang="scss">
 .header {
-  background-color: white;
+  background-color: #edf5ff;
   width: 100%;
 }
 
@@ -75,6 +84,14 @@ export default {
 
 .header-links {
   color: black;
+}
+
+.q-btn-item--active {
+  color: #4386dd!important;
+}
+
+.header-logo {
+  width: 40%;
 }
 
 .links-list {

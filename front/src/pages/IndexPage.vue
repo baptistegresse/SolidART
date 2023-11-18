@@ -10,25 +10,34 @@
       <div class="q-my-xl">
         <p class="text-center second-title">How to do ?</p>
         <div class="cards-container row justify-around">
-          <div class="blue-card">Connect your wallet</div>
-          <div class="purple-card">you choose an NFT among
+          <div class="blue-card card-style"><p class="text-center q-mt-xl">Connect your wallet</p></div>
+          <div class="purple-card card-style"><p class="text-center q-mt-xl">You choose an NFT among
             those pledged to receive
-            it at home</div>
-          <div class="pink-card">You can pledge your NFTs
+            it at home</p></div>
+          <div class="pink-card card-style"><p class="text-center q-mt-xl">You can pledge your NFTs
             to receive commissions &
-            be part of the network SA</div>
+            be part of the network SA</p></div>
         </div>
       </div>
     </div>
     <div class="security-container">
-      <h4 class="text-center">Everything is secure</h4>
+      <h4 class="text-center"><p>Everything is secure</p></h4>
       <div class="cards-container row justify-around">
-        <div class="data-card">We do not retain any
-          personal data</div>
-        <div class="payment-card">Secure payment using
-          the wallet or your ledger</div>
-        <div class="support-card">Support available 24/7</div>
+        <div class="data-card card-style"><p class="text-center q-mt-xl">We do not retain any
+          personal data</p></div>
+        <div class="payment-card card-style"><p class="text-center q-mt-xl">Secure payment using
+          the wallet or your ledger</p></div>
+        <div class="support-card card-style"><p class="text-center q-mt-xl">Support available 24/7</p></div>
       </div>
+    </div>
+    <div class="partners-container q-mb-xl">
+      <h4 class="text-center blue-title"><p>The partners who support us</p></h4>
+      <q-list class="row justify-around partners-list">
+        <img class="partners-icons" src="partner1.png">
+        <img class="partners-icons" src="partner2.png">
+        <img class="partners-icons" src="partner3.png">
+        <img class="partners-icons" src="partner4.png">
+      </q-list>
     </div>
     <FooterMenu />
   </q-page>
@@ -76,22 +85,24 @@ export default {
   width: 100%;
 }
 
-.blue-card {
-  width: 30%;
-  background-color: #9BC2F5;
+.card-style {
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 400px;
   border-radius: 10px;
+  width: 20%;
+}
+
+.blue-card {
+  background-image: url('/blue-card.png');
 }
 
 .purple-card {
-  width: 30%;
-  background-color: #B7C2FF;
-  border-radius: 10px;
+  background-image: url('/purple-card.png');
 }
 
 .pink-card {
-  width: 30%;
-  background-color: #FFD5D2;
-  border-radius: 10px;
+  background-image: url('/pink-card.png');
 }
 
 .security-container {
@@ -99,17 +110,23 @@ export default {
 }
 
 .data-card {
-  width: 30%;
-  background-color: white;
+  background-image: url('/data-card.png');
 }
 
 .payment-card {
-  width: 30%;
-  background-color: white;
+  background-image: url('/security-card.png');
 }
 
 .support-card {
-  width: 30%;
-  background-color: white;
+  background-image: url('/support-card.png');
 }
+
+.blue-title {
+  color: #0F2D54;
+}
+
+.partners-icons {
+  height: 80px;
+}
+
 </style>

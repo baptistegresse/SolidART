@@ -6,7 +6,7 @@ const routes = [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: '/marketplace', component: () => import('pages/MarketPlace.vue') },
       { path: '/mynft', component: () => import('pages/MyNft.vue') },
-      { path: '/contact', component: () => import('pages/Contact.vue') }
+      { path: '/contact', component: () => import('pages/ContactUs.vue') }
     ]
   },
   {

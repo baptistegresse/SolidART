@@ -29,9 +29,6 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/vue'
-import { mainnet, arbitrum } from 'viem/chains'
-
 
 export default {
   setup() {
@@ -57,20 +54,7 @@ export default {
         active: false
       }];
     const router = useRouter();
-    // 1. Get projectId
-    const projectId = 'YOUR_PROJECT_ID'
-
-    // 2. Create wagmiConfig
-    const metadata = {
-      name: 'Web3Modal',
-      description: 'Web3Modal Example',
-      url: 'https://web3modal.com',
-      icons: ['https://avatars.githubusercontent.com/u/37784886']
-    }
-
-    const chains = [mainnet, arbitrum]
-    const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
-    return { linksList, router, projectId, metadata, chains, wagmiConfig }
+    return { router }
   },
   methods: {
     goToPage(page) {

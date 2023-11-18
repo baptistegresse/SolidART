@@ -11,13 +11,12 @@
           </q-list>
         </div>
         <div class="flex justify-end col-4">
-          <q-btn class="wallet-button" outlined rounded><svg class="wallet-icon" xmlns="http://www.w3.org/2000/svg"
-              height="1em"
+          <q-btn class="wallet-button" @click="connectWallet" outlined rounded><svg class="wallet-icon"
+              xmlns="http://www.w3.org/2000/svg" height="1em"
               viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
               <path
                 d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
             </svg>Connect Wallet</q-btn>
-            <w3m-button />
         </div>
       </q-toolbar>
     </q-header>
@@ -29,8 +28,13 @@
 
 <script>
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { ethers } from "ethers";
 
 export default {
+  mounted() {
+    this.checkConnectedWalletExist();
+  },
   setup() {
     const linksList = [
       {
@@ -54,7 +58,14 @@ export default {
         active: false
       }];
     const router = useRouter();
-    return { router }
+    return { router, linksList }
+  },
+  data() {
+    return {
+      currentAccount: null,
+      currentContract: null,
+      contractAddress: "<Your deployed contract Address>"
+    }
   },
   methods: {
     goToPage(page) {
@@ -63,6 +74,46 @@ export default {
       });
       this.router.push(page.link);
       page.active = true
+    },
+    checkConnectedWalletExist: async function () {
+      try {
+        const { ethereum } = window;
+        if (!ethereum) {
+          alert("Make sure you have metamask!");
+          return false;
+        } else {
+          console.log("We have the ethereum object", ethereum);
+        }
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+        if (accounts.length !== 0) {
+          const account = accounts[0];
+          console.log("Found an authorized account:", account);
+          this.currentAccount = account;
+          return true;
+        } else {
+          console.log("No authorized account found");
+          return false;
+        }
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
+    connectWallet: async function () {
+      try {
+        const { ethereum } = window;
+        if (!ethereum) {
+          alert("Get MetaMask!");
+          return;
+        }
+        const accounts = await ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        console.log("Connected", accounts[0]);
+        this.currentAccount = accounts[0];
+      } catch (error) {
+        console.log(error);
+      }
     },
   }
 }

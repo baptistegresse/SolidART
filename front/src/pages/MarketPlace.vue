@@ -9,7 +9,7 @@
             </q-input>
         </div>
     </div>
-    <NFTList @OpenModal="onOpenModal" :nfts="nfts" />
+    <NFTList :nfts="nfts" />
     <FooterMenu />
     <NFTModal v-model="visible" :nftSelected="nftSelected" />
 </template>
@@ -17,14 +17,12 @@
 <script>
 import FooterMenu from 'src/components/FooterMenu.vue'
 import NFTList from 'src/components/NFTList.vue';
-import NFTModal from 'src/components/NFTModal.vue';
 import { ref } from 'vue';
 
 export default {
     components: {
         FooterMenu,
-        NFTList,
-        NFTModal
+        NFTList
     },
     data() {
         return {
@@ -54,13 +52,6 @@ export default {
             ],
             visible: ref(false),
             nftSelected: {}
-        }
-    },
-    methods: {
-        onOpenModal(nft) {
-            console.log('ok')
-            this.nftSelected = nft
-            this.visible = true
         }
     }
 }

@@ -20,10 +20,10 @@
   <div class="row justify-around q-my-lg">
     <img class="contact-graphic" src="/contact-graphic.png">
     <div class="contact-div column justify-center items-center">
-      <div class="row"><img class="contact-icon" src="/mail.png">
+      <div class="row items-center"><img class="contact-icon" src="/mail.png">
         <p class="contact-text">contact@solidart.com</p>
       </div>
-      <div class="row"><img class="contact-icon" src="/phone.png">
+      <div class="row items-center"><img class="contact-icon" src="/phone.png">
         <p class="contact-text">06.42.85.02.06</p>
       </div>
     </div>
@@ -109,9 +109,9 @@ export default {
 }
 
 .contact-icon {
-  width: 20%;
+  width: 21%;
 }
 
 .contact-text {
-  font-size: 1.3rem;
+  font-size: 1rem;
 }</style>

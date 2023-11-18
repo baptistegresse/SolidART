@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="partners-container q-mb-xl">
-      <h4 class="text-center blue-title"><p>The partners who support us</p></h4>
+      <h4 class="text-center blue-title"><p>Make your favorite collection real</p></h4>
       <q-list class="row justify-around partners-list">
         <img class="partners-icons" src="partner1.png">
         <img class="partners-icons" src="partner2.png">

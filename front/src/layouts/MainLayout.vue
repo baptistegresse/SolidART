@@ -11,12 +11,13 @@
           </q-list>
         </div>
         <div class="flex justify-end col-4">
-          <q-btn class="wallet-button" @click="connectWallet" outlined rounded><svg class="wallet-icon"
+          <q-btn v-if="!currentAccount" class="wallet-button" @click="connectWallet" outlined rounded><svg class="wallet-icon"
               xmlns="http://www.w3.org/2000/svg" height="1em"
               viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
               <path
                 d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
             </svg>Connect Wallet</q-btn>
+            <q-btn v-else rounded disabled style="color: #4386dd"><svg class="wallet-icon2" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>...{{ currentAccount.slice(-5) }}</q-btn>
         </div>
       </q-toolbar>
     </q-header>
@@ -89,6 +90,7 @@ export default {
           const account = accounts[0];
           console.log("Found an authorized account:", account);
           this.currentAccount = account;
+          console.log(this.currentAccount)
           return true;
         } else {
           console.log("No authorized account found");
@@ -160,6 +162,11 @@ export default {
 
 .wallet-icon {
   fill: #ffffff;
+  margin-right: 3px;
+}
+
+.wallet-icon2 {
+  fill: #4386dd;
   margin-right: 3px;
 }
 </style>

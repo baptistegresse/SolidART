@@ -11,13 +11,13 @@
     </div>
     <NFTList :nfts="nfts" />
     <FooterMenu />
-    <NFTModal v-model="visible" :nftSelected="nftSelected" />
 </template>
 
 <script>
 import FooterMenu from 'src/components/FooterMenu.vue'
 import NFTList from 'src/components/NFTList.vue';
 import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
     components: {

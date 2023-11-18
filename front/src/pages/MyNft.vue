@@ -1,6 +1,6 @@
 <template>
     <q-page class="q-ma-lg">
-        <h1 class="title-full-blue q-my-xl text-center">My NFTs</h1>
+        <h1 class="title-full-blue q-my-xl text-center"><b>My NFTs</b></h1>
         <p class="subtitle text-center q-my-lg"><b>Do you want to <span style="color: #4386DD;">pledge your NFT</span> in order
                 to receive commissions ?</b></p>
         <div class="list-container q-my-lg flex justify-center">

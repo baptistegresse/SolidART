@@ -55,12 +55,14 @@ export default {
             // Appel de la fonction getAddresses
             let response = await contract.methods.getAddresses().call();
 
+            console.log(response)
+
             // Convertir les BigInt en chaînes pour éviter des problèmes de sérialisation
             response = JSON.parse(JSON.stringify(response, (_, value) =>
                 typeof value === 'bigint' ? value.toString() : value));
 
             try {
-                const address = '0xed626994548a1853f9a6c5bf36e9cbd9ffeff023';
+                const address = '0x932Ca55B9Ef0b3094E8Fa82435b3b4c50d713043';
                 const chain = EvmChain.GOERLI;
                 const tokenId = '28664';
 
@@ -76,15 +78,13 @@ export default {
                     tokenId,
                 });
 
-            console.log(Nftresponse);
-
                 // Mettez à jour le tableau nfts avec les données de Moralis
                 this.nfts = [{
-                    id: Nftresponse.jsonResponse.token_id, // Mettez à jour avec la clé correcte de votre objet response
-                    image: JSON.parse(Nftresponse.jsonResponse.metadata).image, // Mettez à jour avec la clé correcte de votre objet response
-                    address: Nftresponse.jsonResponse.token_address, // Mettez à jour avec la clé correcte de votre objet response
-                    price: "12 APE", // Mettez à jour avec la clé correcte de votre objet response
-                    metadatas: JSON.parse(Nftresponse.jsonResponse.metadata), // Mettez à jour avec la clé correcte de votre objet response
+                    id: Nftresponse.jsonResponse.token_id,
+                    image: JSON.parse(Nftresponse.jsonResponse.metadata).image,
+                    address: Nftresponse.jsonResponse.token_address,
+                    price: 12,
+                    metadatas: JSON.parse(Nftresponse.jsonResponse.metadata),
                 }];
             } catch (error) {
                 console.error('Erreur lors du chargement des données avec Moralis :', error);

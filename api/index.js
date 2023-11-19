@@ -12,9 +12,7 @@ app.use(cors({
     origin: '*'
 }));
 
-
 listUserNft();
-
 
 app.use(express.json());
 

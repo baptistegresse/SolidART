@@ -83,17 +83,13 @@ export default {
           alert("Make sure you have metamask!");
           return false;
         } else {
-          console.log("We have the ethereum object", ethereum);
         }
         const accounts = await ethereum.request({ method: "eth_accounts" });
         if (accounts.length !== 0) {
           const account = accounts[0];
-          console.log("Found an authorized account:", account);
           this.currentAccount = account;
-          console.log(this.currentAccount)
           return true;
         } else {
-          console.log("No authorized account found");
           return false;
         }
       } catch (error) {

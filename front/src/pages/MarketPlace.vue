@@ -18,6 +18,12 @@ import FooterMenu from 'src/components/FooterMenu.vue'
 import NFTList from 'src/components/NFTList.vue';
 import { ref } from 'vue';
 import axios from 'axios';
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/common-evm-utils';
+import abi from 'src/abi.json'
+import Web3 from 'web3'
+
+
 
 export default {
     components: {
@@ -30,69 +36,63 @@ export default {
     data() {
         return {
             text: '',
-            nfts: [
-                {
-                    id: "#1234",
-                    image: '/nft.png',
-                    adress: 'addresstonft.com',
-                    price: '12.00 ETH',
-                    metadatas: 'metadatas'
-                },
-                {
-                    id: "#1234",
-                    image: '/nft.png',
-                    adress: 'addresstonft.com',
-                    price: '12.00 ETH',
-                    metadatas: 'metadatas'
-                },
-                {
-                    id: "#1234",
-                    image: '/nft.png',
-                    adress: 'addresstonft.com',
-                    price: '12.00 ETH',
-                    metadatas: 'metadatas'
-                }
-            ],
+            nfts: [],
             visible: ref(false),
             nftSelected: {}
         }
     },
     methods: {
         async reloadData() {
+            const goerliRpcUrl = 'https://goerli.blockpi.network/v1/rpc/public';
+            const web3 = new Web3(goerliRpcUrl);
+            const contractAddress = "0xed626994548a1853f9a6c5bf36e9cbd9ffeff023";
+            if (!contractAddress) {
+                throw new Error("Adresse du contrat intelligent non définie");
+            }
+
+            const contract = new web3.eth.Contract(abi, contractAddress);
+
+            // Appel de la fonction getAddresses
+            let response = await contract.methods.getAddresses().call();
+
+            // Convertir les BigInt en chaînes pour éviter des problèmes de sérialisation
+            response = JSON.parse(JSON.stringify(response, (_, value) =>
+                typeof value === 'bigint' ? value.toString() : value));
+
             try {
-                // Utilisez Axios pour effectuer une requête GET
-                const response = await axios.get('http://localhost:3001/nft/test');
+                const address = '0xed626994548a1853f9a6c5bf36e9cbd9ffeff023';
+                const chain = EvmChain.GOERLI;
+                const tokenId = '28664';
 
-                console.log(response)
-
-                const ALCHEMY_API_KEY = 'YlrY3VxtYYuJkOv6XDIYo-WoZX-ow-29';
-                const NFT_CONTRACT_ADDRESS = response.data[0][1].owner;
-
-                const alchemyURL = `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`;
-                const nftApiUrl = `${alchemyURL}/metadata/${NFT_CONTRACT_ADDRESS}/${response.data[0][1].id}`;
-
-                try {
-                    const response = await axios.get(nftApiUrl);
-
-                    if (response.status === 200) {
-                        const metadata = response.data;
-                        console.log('Métadonnées de la NFT:', metadata);
-                    } else {
-                        console.error('Erreur lors de la récupération des métadonnées de la NFT');
-                    }
-                } catch (error) {
-                    console.error('Erreur:', error.message);
+                if (Moralis.Core.isStarted === false) {
+                    await Moralis.start({
+                        apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjNiYzZlNjcwLWYwZTQtNDM2YS1iNGRmLWVhMGE0Njk4MGRiYiIsIm9yZ0lkIjoiMzY0ODQ5IiwidXNlcklkIjoiMzc0OTcxIiwidHlwZUlkIjoiOWNkOTg3MjktZWJkNS00ZWQ0LTllNGQtODlmZGNlODY4ZDkzIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MDAyOTEwNzAsImV4cCI6NDg1NjA1MTA3MH0.UV6OJC5nJ-U3sG097Bbq0ckXNN8hrFyKXre7AGSeh20',
+                    });
                 }
 
-                console.log(response.data)
+                const Nftresponse = await Moralis.EvmApi.nft.getNFTMetadata({
+                    address,
+                    chain,
+                    tokenId,
+                });
+
+            console.log(Nftresponse);
+
+                // Mettez à jour le tableau nfts avec les données de Moralis
+                this.nfts = [{
+                    id: Nftresponse.jsonResponse.token_id, // Mettez à jour avec la clé correcte de votre objet response
+                    image: JSON.parse(Nftresponse.jsonResponse.metadata).image, // Mettez à jour avec la clé correcte de votre objet response
+                    address: Nftresponse.jsonResponse.token_address, // Mettez à jour avec la clé correcte de votre objet response
+                    price: "12 APE", // Mettez à jour avec la clé correcte de votre objet response
+                    metadatas: JSON.parse(Nftresponse.jsonResponse.metadata), // Mettez à jour avec la clé correcte de votre objet response
+                }];
             } catch (error) {
-                // Gérez les erreurs ici
-                console.error('Erreur lors de la récupération des données avec Axios:', error);
-                this.error = error.message; // Stockez le message d'erreur dans une variable si nécessaire
+                console.error('Erreur lors du chargement des données avec Moralis :', error);
             }
-        }
+        },
     }
 }
+
 
 </script>
 

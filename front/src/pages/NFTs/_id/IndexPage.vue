@@ -60,7 +60,7 @@ export default {
                 id: "#1234",
                 image: '/nft.png',
                 adress: 'addresstonft.com',
-                price: '12.00 ETH',
+                price: '12.00 APE',
                 metadatas: 'metadatas'
             }
         }

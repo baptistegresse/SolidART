@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const goerliRpcUrl = 'https://goerli.blockpi.network/v1/rpc/public';
 const web3 = new Web3(goerliRpcUrl);
+console.log('ok')
 
 const listUserNft = async (req, res) => {
     try {

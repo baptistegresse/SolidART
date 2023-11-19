@@ -23,11 +23,15 @@
 
 import NFTList from 'src/components/NFTList.vue';
 import FooterMenu from 'src/components/FooterMenu.vue';
+import axios from 'src/boot/axios';
 
 export default {
     components: {
         NFTList,
         FooterMenu
+    },
+    created() {
+        this.reloadData();
     },
     data() {
         return {
@@ -36,24 +40,31 @@ export default {
                     id: "#1234",
                     image: '/nft.png',
                     adress: 'addresstonft.com',
-                    price: '12.00 ETH',
+                    price: '12.00 APE',
                     metadatas: 'metadatas'
                 },
                 {
                     id: "#1234",
                     image: '/nft.png',
                     adress: 'addresstonft.com',
-                    price: '12.00 ETH',
+                    price: '12.00 APE',
                     metadatas: 'metadatas'
                 },
                 {
                     id: "#1234",
                     image: '/nft.png',
                     adress: 'addresstonft.com',
-                    price: '12.00 ETH',
+                    price: '12.00 APE',
                     metadatas: 'metadatas'
                 },
             ]
+        }
+    },
+    methods: {
+        reloadData() {
+            axios.get('http://localhost:3001/nft/test').then((res) => {
+                console.log(res)
+            })
         }
     }
 }

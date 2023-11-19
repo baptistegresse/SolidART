@@ -109,9 +109,10 @@ export default {
 }
 
 .contact-icon {
-  width: 21%;
+  width: 20%;
 }
 
 .contact-text {
-  font-size: 1rem;
-}</style>
+  font-size: 1.3rem;
+}
+</style>

@@ -71,6 +71,10 @@ export default {
 
 <style>
 
+.title {
+    font-size: 5rem;
+}
+
 .linear-background {
     background: linear-gradient(to right, #edf5ff 50%, #ffffff 50%);
 }

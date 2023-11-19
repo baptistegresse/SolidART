@@ -7,8 +7,6 @@
 const Moralis = require("moralis").default;
 const {EvmChain} = require("@moralisweb3/common-evm-utils");
 require('dotenv').config();
-const ipfs = require('ipfs-http-client');
-
 
 const MORALIS_ID = process.env.MORALIS_ID
 const MORALIS_KEY = process.env.MORALIS_API_KEY
@@ -23,7 +21,6 @@ const runApp = async () => {
 const getNftFromWallet = async (req, res) => {
     const address = req.body.address;
     const chain = '0x5';
-
     try {
         const response = await Moralis.EvmApi.nft.getWalletNFTCollections({
             address,
@@ -33,21 +30,53 @@ const getNftFromWallet = async (req, res) => {
     } catch (error) {
         res.status(500).send(error.message);
     }
-
 }
 
+const listNftOwnerFromContract = async (req, res) => {
+    const address = SMART_CONTRACT;
+    const chain = '0x5';
 
-const listNftFromContract = async (req, res) => {
+    const response = await Moralis.EvmApi.nft.getNFTOwners({
+        address,
+        chain,
+    });
 
+    console.log(response.toJSON());
+    res.json(response)
 }
 
 const convertHashToIpfs = async (hash) => {
 
 }
 
+const listTransactionContract = async (req, res) => {
+    const address = SMART_CONTRACT;
+    const chain = '0x5';
+
+    const response = await Moralis.EvmApi.transaction.getWalletTransactions({
+        address,
+        chain,
+    });
+    res.json(response);
+}
+
+const listAllNftFromContract = async (req, res) => {
+    const address = SMART_CONTRACT;
+    const chain = '0x5';
+
+    const response = await Moralis.EvmApi.nft.getContractNFTs({
+        address,
+        chain,
+    })
+
+    res.json(response);
+}
+
 module.exports = {
     runApp,
     getNftFromWallet,
-    listNftFromContract,
-    convertHashToIpfs
+    listNftOwnerFromContract,
+    convertHashToIpfs,
+    listTransactionContract,
+    listAllNftFromContract
 }

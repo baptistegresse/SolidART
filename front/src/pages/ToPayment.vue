@@ -1,6 +1,7 @@
 <template>
     <q-page>
-        <p class="text-center title">Enter your <span style="color: #4386DD;">information</span><br>to receive the visual</p>
+        <p class="text-center title">Enter your <span style="color: #4386DD;">information</span><br>to receive the visual
+        </p>
         <div>
             <div class="recap-container row justify-around q-mb-lg">
                 <q-btn rounded disabled>#1906</q-btn>
@@ -25,21 +26,42 @@
                 </ul>
             </div>
             <div class="flex justify-center">
-                <q-btn class="payment-button" rounded>Proceed to payment</q-btn>
+                <q-btn @click="onPayement" class="payment-button" rounded>Proceed to payment</q-btn>
             </div>
         </div>
     </q-page>
 </template>
 
-<style>
+<script>
 
+import { useQuasar } from "quasar";
+
+export default {
+    setup() {
+        const q = useQuasar();
+
+        return { q }
+    },
+    methods: {
+        onPayement() {
+            this.q.notify({
+                position: "top",
+                type: "positive",
+                message: "Paiement validé !",
+            });
+        }
+    }
+}
+
+</script>
+
+<style>
 .title {
-  font-size: 5rem;
+    font-size: 5rem;
 }
 
 .payment-button {
-  color: white;
-  background-color: #4386dd;
+    color: white;
+    background-color: #4386dd;
 }
-
 </style>

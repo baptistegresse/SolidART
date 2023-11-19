@@ -1,10 +1,10 @@
 const express = require('express');
-const authRouter = require('./router/AuthRouter');
-const moralisRouther = require('./router/MoralisRouter')
+const moralisRouter = require('./router/MoralisRouter')
+const etherJsRouter = require('./router/EtherJsRouter')
 const app = express();
 const cors = require('cors');
-const {getTransferDetails, getEvents, test} = require("./solidity");
 const {runApp} = require("./controller/MoralisController");
+const {listUserNft, sendNft} = require("./controller/EtherJs");
 
 app.use(cors());
 
@@ -12,17 +12,17 @@ app.use(cors({
     origin: '*'
 }));
 
+
+listUserNft();
+
+
 app.use(express.json());
 
-app.use('/api', authRouter);
-app.use('/moralis', moralisRouther);
+app.use('/contract', moralisRouter);
+app.use('/nft', etherJsRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
-});
-
-app.get('/test', (req, res) => {
-    test();
 });
 
 runApp();

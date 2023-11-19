@@ -23,8 +23,6 @@ import { EvmChain } from '@moralisweb3/common-evm-utils';
 import abi from 'src/abi.json'
 import Web3 from 'web3'
 
-
-
 export default {
     components: {
         FooterMenu,
@@ -46,54 +44,54 @@ export default {
             const goerliRpcUrl = 'https://goerli.blockpi.network/v1/rpc/public';
             const web3 = new Web3(goerliRpcUrl);
             const contractAddress = "0xed626994548a1853f9a6c5bf36e9cbd9ffeff023";
+            
             if (!contractAddress) {
                 throw new Error("Adresse du contrat intelligent non définie");
             }
-
+            
             const contract = new web3.eth.Contract(abi, contractAddress);
-
-            // Appel de la fonction getAddresses
+            
             let response = await contract.methods.getAddresses().call();
-
+            
             console.log(response)
-
-            // Convertir les BigInt en chaînes pour éviter des problèmes de sérialisation
+            
             response = JSON.parse(JSON.stringify(response, (_, value) =>
-                typeof value === 'bigint' ? value.toString() : value));
-
-            try {
-                const address = '0x932Ca55B9Ef0b3094E8Fa82435b3b4c50d713043';
+            typeof value === 'bigint' ? value.toString() : value));
+            
+            if (Moralis.Core.isStarted === false) {
+                await Moralis.start({
+                    apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjNiYzZlNjcwLWYwZTQtNDM2YS1iNGRmLWVhMGE0Njk4MGRiYiIsIm9yZ0lkIjoiMzY0ODQ5IiwidXNlcklkIjoiMzc0OTcxIiwidHlwZUlkIjoiOWNkOTg3MjktZWJkNS00ZWQ0LTllNGQtODlmZGNlODY4ZDkzIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MDAyOTEwNzAsImV4cCI6NDg1NjA1MTA3MH0.UV6OJC5nJ-U3sG097Bbq0ckXNN8hrFyKXre7AGSeh20',
+                });
+            }
+            for (let i = 0; i < response[0].length; i++) {
+                const address = response[0][i];
+                const tokenId = response[1][i];
+                
                 const chain = EvmChain.GOERLI;
-                const tokenId = '28664';
-
+                
                 if (Moralis.Core.isStarted === false) {
                     await Moralis.start({
-                        apiKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjNiYzZlNjcwLWYwZTQtNDM2YS1iNGRmLWVhMGE0Njk4MGRiYiIsIm9yZ0lkIjoiMzY0ODQ5IiwidXNlcklkIjoiMzc0OTcxIiwidHlwZUlkIjoiOWNkOTg3MjktZWJkNS00ZWQ0LTllNGQtODlmZGNlODY4ZDkzIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MDAyOTEwNzAsImV4cCI6NDg1NjA1MTA3MH0.UV6OJC5nJ-U3sG097Bbq0ckXNN8hrFyKXre7AGSeh20',
+                        apiKey: 'votre-clé-api-moralis',
                     });
                 }
-
+                
                 const Nftresponse = await Moralis.EvmApi.nft.getNFTMetadata({
                     address,
                     chain,
                     tokenId,
                 });
 
-                // Mettez à jour le tableau nfts avec les données de Moralis
-                this.nfts = [{
-                    id: Nftresponse.jsonResponse.token_id,
+                this.nfts.push({
+                    id: tokenId,
                     image: JSON.parse(Nftresponse.jsonResponse.metadata).image,
-                    address: Nftresponse.jsonResponse.token_address,
+                    address: address,
                     price: 12,
                     metadatas: JSON.parse(Nftresponse.jsonResponse.metadata),
-                }];
-            } catch (error) {
-                console.error('Erreur lors du chargement des données avec Moralis :', error);
+                });
             }
         },
     }
 }
-
-
 </script>
 
 <style>
@@ -105,3 +103,4 @@ export default {
     width: 100%;
 }
 </style>
+
